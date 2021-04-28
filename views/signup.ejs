@@ -1,0 +1,47 @@
+<div class="container mt-3">
+    <h3>Sign Up</h3>
+    <p>
+        Sign up to our website 
+    </p>
+    <form method="POST" action="/signup" style="width: 500px;">
+        <div class="form-group">
+            <label for="txtNombre">Nombre:</label>
+            <input type="text" class="form-control" name="nombre" id="txtNombre" />
+        </div>
+        <div class="form-group">
+            <label for="txtApellidoP">Apellido Paterno:</label>
+            <input type="text" class="form-control" name="apellidoP" id="txtApellidoP" />
+        </div>
+        <div class="form-group">
+            <label for="txtApellidoM">Apellido Materno:</label>
+            <input type="text" class="form-control" name="apellidoM" id="txtApellidoM" />
+        </div>
+        <div class="form-group">
+            <label for="txtFechaNacimiento">Fecha de nacimiento:</label>
+            <input type="date" class="form-control" name="fechaNacimiento" id="txtFechaNacimiento" />
+        </div>
+        <div class="form-group">
+            <label for="txtTelefono">Numero telefonico:</label>
+            <input type="text" class="form-control" name="telefono" id="txtTelefono" />
+        </div>
+        <div class="form-group">
+            <label for="cmbUsuario">Tipo de usuario:</label>
+            <select id="cmbUsuario" class="form-control" name="usuarioId">
+                <option value="paciente">Paciente</option>
+                <option value="medico">Personal Medico</option>
+                <option value="administrativo">Administrativo</option>
+            </select>
+        <div class="form-group">
+            <label for="txtUsername">User name:</label>
+            <input type="text" class="form-control" name="username" id="txtUsername" />
+        </div>
+        <div class="form-group">
+            <label for="txtPassword">Password:</label>
+            <input type="password" class="form-control" name="password" id="txtPassword" />
+        </div>
+        </div>
+        <div class="form-group mb-5">
+            <input type="submit" value="Sign Up" class="btn btn-dark" />
+        </div>
+    </form>
+</div>
