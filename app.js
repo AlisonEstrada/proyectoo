@@ -18,11 +18,11 @@ app.set('view engine', 'ejs');
 const jsonParser = bodyParser.json();
 
 const dbConfiguration = {
-    host: 'localhost',
+    host: 'database-1.cwm6hivctpor.us-east-2.rds.amazonaws.com',
     port: 3306,
-    user: 'root',
-    password: '',
-    database: 'cdialisis'
+    user: 'admin',
+    password: 'adminpassword',
+    database: 'dbdialisis'
 }
 
 module.exports = app;
