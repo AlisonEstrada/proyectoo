@@ -1,33 +1,35 @@
-<nav class="navbar navbar-expand-sm bg-white navbar-white" style="position: fixed; top: 0; width: 100%;">
+<div style="margin-left: auto; margin-right: auto;">
+    <img src="/images/bann.jpg" style="width: 100%;" />
+</div>
+<nav class="navbar navbar-expand-lg bg-primary navbar-dark" >
     <ul class="navbar-nav">
         <li class="navbar-item">
-            <a href="#" class="nav-link active">INICIO</a>
+            <a href="#" class="nav-link text-light active">INICIO</a>
         </li>
         <li class="navbar-item">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ACERCA DE NOSOTROS</a>
+            <a href="#" class="nav-link dropdown-toggle text-light" data-toggle="dropdown">ACERCA DE NOSOTROS</a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">MISION</a>
-                <a class="dropdown-item" href="#">VISION</a>
-                <a class="dropdown-item" href="#">NUESTROS VALORES</a>
+                <a class="dropdown-item " href="#">MISION</a>
+                <a class="dropdown-item " href="#">VISION</a>
+                <a class="dropdown-item " href="#">NUESTROS VALORES</a>
             </div>
         </li>
-        <li class="navbar-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                User Management
-            </a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">INGRESAR</a>
-                <a class="dropdown-item" href="/signup">REGISTRARSE</a>
-            </div>
+        <li class="navbar-item">
+            <a href="#" class="nav-link text-light active">ALIMENTACIÓN</a>
+        </li>
+        <li class="navbar-item">
+            <a href="#" class="nav-link text-light active">INFORMACIÓN</a>
+        </li>
+        <li class="navbar-item">
+            <a href="/login" class="nav-link text-light active">INICIAR SESION</a>
+        </li>
+        <li class="navbar-item">
+            <a href="/signup" class="nav-link text-light active">REGISTRARSE</a>
         </li>
     </ul>
     <% if (typeof user !== 'undefined') { %>
-        <div>
-            Welcome: <%= user.username %>
-            <a href="/logout">LOG OUT</a>
+        <div class="text-light">
+            BIENVENIDO: <%= user.username %>
         </div>
     <% } %>
 </nav>
-<div style="margin-left: auto; margin-right: auto;">
-    <img src="/images/nefrologia.jpg" style="width: 100%; margin-top: 40px;" />
-</div>

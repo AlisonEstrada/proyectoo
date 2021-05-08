@@ -1,0 +1,56 @@
+<div class="container mt-3">
+    <h3>INGRESAR DATOS</h3>
+    <p>
+        Paciente: <%= usuario.nombre %>
+    </p>
+    <form method="POST" action="/ingresarDatosM" style="width: 500px;">
+        <div class="form-group">
+            <label for="txtFecha">Fecha:</label>
+            <input type="date" class="form-control" name="fecha" id="txtFecha" />
+        </div>
+        <div class="form-group">
+            <label for="txtPesoIng">Peso ingreso (kg):</label>
+            <input type="text" class="form-control" name="pesoIng" id="txtPesoIng" />
+        </div>
+        <div class="form-group">
+            <label for="txtHoraInicio">Hora de inicio (diálisis):</label>
+            <input type="time" class="form-control" name="horaInicio" id="txtHoraInicio" />
+        </div>
+        <div class="form-group">
+            <label for="txtHoraFin">Hora de fin (diálisis):</label>
+            <input type="time" class="form-control" name="horaFin" id="txtHoraFin" />
+        </div>
+        <div class="form-group">
+            <label for="txtPesoEg">Peso egreso (kg):</label>
+            <input type="text" class="form-control" name="pesoEg" id="txtPesoEg" />
+        </div>
+        <div class="form-group">
+            <label for="txtValor">Valor kt/V:</label>
+            <input type="text" class="form-control" name="valor" id="txtValor" />
+        </div>
+        <div class="form-group">
+            <label for="cmbMaquina">Máquina (marca y número):</label>
+            <select id="cmbMaquina" class="form-control" name="maquina">
+                <% for (let maquina of maquinas) { %>
+                    <option value="<%= maquina.id %>"><%= maquina.dato %></option>
+                <% } %>
+            </select>
+        </div>    
+        <div class="form-group">
+            <label for="txtUFp">UF programada:</label>
+            <input type="text" class="form-control" name="ufProg" id="txtUFp" />
+        </div>
+        <div class="form-group">
+            <label for="txtUFf">UF final:</label>
+            <input type="text" class="form-control" name="ufFin" id="txtUFf" />
+        </div>
+        </div>
+        <div class="form-group mb-5">
+            <input type="submit" value="Registrar datos" class="btn btn-dark" />
+        </div>
+    </div>
+    <div class="form-group mb-5">
+        <input type="hidden" value="<%= usuario.id %>" name="usuarioId" />
+    </div>
+    </form>
+</div>

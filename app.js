@@ -23,6 +23,12 @@ const dbConfiguration = {
     user: 'admin',
     password: 'adminpassword',
     database: 'dbdialisis'
+
+    /*host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'cdialisis'*/
 }
 
 module.exports = app;
@@ -78,7 +84,7 @@ passport.use('local', new LocalStrategy(
 	(req, username, password, done) => {
         connectDb();
 
-        conn.query('SELECT id, username, pass FROM app_user WHERE username = ?', [username], (error, rows) => {
+        conn.query('SELECT id, username, pass FROM usuario WHERE username = ?', [username], (error, rows) => {
             closeDb();
 
             if (rows.length == 0) {
@@ -109,7 +115,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => {
     connectDb();
     
-	conn.query('SELECT id, username FROM app_user WHERE id = ?', [id], (error, row) => {
+	conn.query('SELECT id, username FROM usuario WHERE id = ?', [id], (error, row) => {
 		if (row.length == 0) {
 			return done(null, false);
         }
@@ -135,7 +141,15 @@ closeDb = () => {
 }
 
 app.get('/login', (req, res) => {
-    res.render('main', {'title': 'Login', 'message': '', 'content': 'login'})
+    connectDb();
+    conn.query('SELECT id, rol FROM roles', (error, rows) => {
+        if (error) {
+            throw error;
+        }
+
+        res.render('main', {'title': 'Login', 'message': '', 'content': 'login', 'roles': rows});
+        closeDb();
+    });
 })
 
 app.get('/loginerror', (req, res) => {
@@ -158,7 +172,12 @@ app.post('/login', (req, res, next) => {
             }
 
             req.session.save(() => {
-                res.redirect('/');
+                if (req.body.tipoUsuario == 1) {
+                    res.redirect('/pacienteInicio');
+                }
+                if (req.body.tipoUsuario == 2) {
+                    res.redirect('/medicoInicio');
+                }
             });
         })
     })(req, res, next);
@@ -171,7 +190,15 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/signup', (req, res) => {
-    res.render('main', {'title': 'Sign Up', 'content': 'signup'});
+    connectDb();
+    conn.query('SELECT id, rol FROM roles', (error, rows) => {
+        if (error) {
+            throw error;
+        }
+
+        res.render('main', {'title': 'Sign Up', 'content': 'signup', 'roles': rows});
+        closeDb();
+    });
 });
 
 app.get('/', (req, res) => {
@@ -181,10 +208,10 @@ app.get('/', (req, res) => {
 app.post('/signup', (req, res) => {
     let user = req.body;
     connectDb();
-    conn.query('INSERT INTO app_user(nombre, apellido_pat, apellido_mat, fecha_nacimiento, telefono, username, pass) ' + 
-               'VALUES (?, ?, ?, ?, ?, ?, ?)',
+    conn.query('INSERT INTO usuario(nombre, apellido_pat, apellido_mat, fecha_nacimiento, telefono, tipo_usuario, username, pass) ' + 
+               'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
                [user.nombre, user.apellidoP, user.apellidoM, user.fechaNacimiento, 
-                user.telefono, user.username, bcrypt.hashSync(user.password, 10)],
+                user.telefono, user.tipoUsuario, user.username, bcrypt.hashSync(user.password, 10)],
                (error, rows) => {
                    if (error) {
                        throw error;
@@ -203,6 +230,73 @@ app.post('/signup', (req, res) => {
 /*app.get('/', (req, res) => {
     res.render('main', {'title': 'Inicio', 'message': '', 'content': 'inicio'})
 })*/
+
+app.get('/pacienteInicio', (req, res) => {
+    res.render('mainp', {'title': 'Pacient Page', 'content': 'pacienteInicio', 'user': req.user});
+});
+
+app.get('/medicoInicio', (req, res) => {
+    res.render('mainm', {'title': 'Medic Page Inicio', 'content': 'medicoInicio', 'user': req.user});
+});
+
+app.get('/medicoListaPac', (req, res) => {
+    connectDb();
+    conn.query('SELECT id, nombre, apellido_pat, apellido_mat FROM usuario WHERE tipo_usuario = 1', (error,rows) => {
+        if (error) {
+            throw error;
+        }
+
+        res.render('mainm', {'content': 'medicoListaPac', 
+                   'title': 'Medic Page Pacientes', 'pacientes': rows, 'user': req.user});
+        closeDb();
+    })
+});
+
+app.get('/medicoIngresarDatos/:id', (req, res) => {
+    connectDb();
+    conn.query('SELECT id, nombre, apellido_pat FROM usuario ' +
+               'WHERE id=?', [req.params.id],
+               (error, rows) => {
+                   if (error) {
+                       throw error;
+                   }
+
+                   let usuario = rows[0];
+                   console.log(req.params.id);
+                   console.log(usuario);
+
+                    conn.query('SELECT id, dato FROM maquinas ' ,(error, rows) => {
+                        if (error) {
+                            throw error;
+                        } 
+        
+                           res.render('mainm', {'content': 'medicoIngresarDatos', 
+                                'title': 'datos usuario', 'usuario': usuario, 'maquinas': rows,'user': req.user});
+                           closeDb();
+                       })
+               })
+})
+
+app.post('/ingresarDatosM', (req, res) => {
+    let a = req.body;
+    connectDb();
+    conn.query('INSERT INTO dialisis(fecha, peso_ing, hora_inicio, hora_fin, peso_eg, valor, id_maquina, uf_prog, uf_fin, id_paciente) ' +
+               'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+               [a.fecha, a.pesoIng, a.horaInicio, a.horaFin, a.pesoEg, a.valor, a.maquina, a.ufProg, a.ufFin, a.usuarioId],
+               (error, rows) => {
+                   if (error) {
+                       throw error;
+                   }
+
+                   if (req.xhr) {
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(rows));
+                    } else {
+                    res.redirect('/medicoInicio');
+                    }
+                   closeDb();
+               })
+})
 
 app.listen(3000, () => {
     console.log('Server up');

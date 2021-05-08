@@ -26,11 +26,12 @@
         </div>
         <div class="form-group">
             <label for="cmbUsuario">Tipo de usuario:</label>
-            <select id="cmbUsuario" class="form-control" name="usuarioId">
-                <option value="paciente">Paciente</option>
-                <option value="medico">Personal Medico</option>
-                <option value="administrativo">Administrativo</option>
+            <select id="cmbUsuario" class="form-control" name="tipoUsuario">
+                <% for (let rol of roles) { %>
+                    <option value="<%= rol.id %>"><%= rol.rol %></option>
+                <% } %>
             </select>
+        </div>    
         <div class="form-group">
             <label for="txtUsername">User name:</label>
             <input type="text" class="form-control" name="username" id="txtUsername" />

@@ -1,0 +1,42 @@
+<div class="container">
+    <h3>LISTA DE PACIENTES</h3>
+    <table class="table table-primary table-hover">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Apellido paterno
+                </th>
+                <th>
+                    Apellido materno
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let paciente of pacientes) { %>
+                <tr>
+                    <td>
+                        <%= paciente.id%>
+                    </td>
+                    <td>
+                        <%= paciente.nombre %>
+                    </td>
+                    <td>
+                        <%= paciente.apellido_pat %>
+                    </td>
+                    <td>
+                        <%= paciente.apellido_mat %>
+                    </td>
+                    <td>
+                        <a href="/medicoIngresarDatos/<%= paciente.id %>">Ingresar datos</a>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>

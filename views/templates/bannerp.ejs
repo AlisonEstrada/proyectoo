@@ -1,0 +1,37 @@
+<div style="margin-left: auto; margin-right: auto;">
+    <img src="/images/bann.jpg" style="width: 100%;" />
+</div>
+
+<div>
+    <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+          <li class="nav-item ">
+            <a class="nav-link text-light" href="/pacienteInicio">INICIO</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="/pacienteMisDatos">MIS DATOS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="#">INGRESAR SÍNTOMAS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="#">MAPA</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="#">ALIMENTACIÓN</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="/logout">CERRAR SESION</a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <% if (typeof user !== 'undefined') { %>
+            <div class="text-light">
+                BIENVENIDO: <%= user.username %>
+            </div>
+        <% } %>
+      </div>
+    </nav>
+</div>

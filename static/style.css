@@ -1,0 +1,23 @@
+
+.ui-menu{ 
+    width: 250px; 
+
+}
+.ui-menu li{
+    padding: 20px;
+}
+
+.table_lista {
+    margin-left: 300px;
+}
+
+/*.navbar{
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}*/
+
+.container {
+    margin-top: 20px;
+}
