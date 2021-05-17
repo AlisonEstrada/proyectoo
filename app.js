@@ -32,17 +32,17 @@ const options = {
 ////////////////////////////////////////////////////////////
 
 const dbConfiguration = {
-    /*host: 'database-1.cwm6hivctpor.us-east-2.rds.amazonaws.com',
+    host: 'database-1.cwm6hivctpor.us-east-2.rds.amazonaws.com',
     port: 3306,
     user: 'admin',
     password: 'adminpassword',
-    database: 'dbdialisis'*/
+    database: 'dbdialisis'
 
-    host: 'localhost',
+    /*host: 'localhost',
     port: 3306,
     user: 'root',
     password: '',
-    database: 'cdialisis'
+    database: 'cdialisis'*/
 }
 
 module.exports = app;
@@ -212,7 +212,7 @@ client.on('connect', function() { // When connected
     // when a message arrives, do something with it
     client.on('message', function(topic, message, packet) {
       console.log("Received '" + message + "' on '" + topic + "'");
-      
+
     });
   });
 });
