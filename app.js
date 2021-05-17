@@ -220,13 +220,6 @@ client.on('connect', function() { // When connected
                        throw error;
                    }
 
-                   if (req.xhr) {
-                    res.writeHead(200, {'Content-Type': 'application/json'});
-                    res.end(JSON.stringify(rows));
-                    } 
-                    /*else {
-                    res.redirect('/pacienteInicio');
-                    }*/
                    closeDb();
                })
     });
