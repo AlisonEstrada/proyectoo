@@ -211,8 +211,24 @@ client.on('connect', function() { // When connected
   client.subscribe('esp32/test', function() {
     // when a message arrives, do something with it
     client.on('message', function(topic, message, packet) {
-      console.log("Received '" + message + "' on '" + topic + "'");
+        console.log("Received '" + message + "' on '" + topic + "'");
+        connectDb();
+        conn.query('INSERT INTO rfid(pac) ' +
+               'VALUES (?)', [message],
+               (error, rows) => {
+                   if (error) {
+                       throw error;
+                   }
 
+                   if (req.xhr) {
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(rows));
+                    } 
+                    /*else {
+                    res.redirect('/pacienteInicio');
+                    }*/
+                   closeDb();
+               })
     });
   });
 });
