@@ -1,0 +1,142 @@
+<div class="container">
+    <h2>PACIENTE: <%= pacientes[0].nombre %> <%= pacientes[0].apellido_pat %> <%= pacientes[0].apellido_mat %></h2>
+    <div>
+        <a href="/medicoVerDatos/<%= pacientes[0].id_paciente %>" class="btn btn-dark"> Volver </a>
+    </div>
+    <div id="div1">
+    <table class="table table-primary table-hover" >
+        <thead>
+            <tr>
+                <th>
+                    Fecha
+                </th>
+                <th>
+                    Dolor de cabeza
+                </th>
+                <th>
+                    Frio
+                </th>
+                <th>
+                    Nauseas
+                </th>
+                <th>
+                    Calambres
+                </th>
+                <th>
+                    Picor
+                </th>
+                <th>
+                    Dolor de cabeza 
+                </th>
+                <th>
+                    Nauseas 
+                </th>
+                <th>
+                    Problemas para dormir
+                </th>
+                <th>
+                    Calambres
+                </th>
+                <th>
+                    Ardor/Escozor en el acceso
+                </th>
+                <th>
+                    Edema
+                </th>
+                <th>
+                    Hipertensión
+                </th>
+                <th>
+                    Hipotensión
+                </th>
+                <th>
+                    Picor/escozor
+                </th>
+                <th>
+                    Otros
+                </th>
+                <th>
+                    Estres
+                </th> 
+                <th>
+                    Depresión
+                </th>
+                <th>
+                    Ansiedad
+                </th>
+                <th>
+                    Otros
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let paciente of pacientes) { %>
+                <tr>
+                    <td>
+                        <%= paciente.fecha.getDate() + '-' +
+                        (paciente.fecha.getMonth()+1) + '-' +
+                        paciente.fecha.getFullYear() %>
+                    </td>
+                    <td>
+                        <%= paciente.d_cabeza1 %>
+                    </td>
+                    <td>
+                        <%= paciente.frio %>
+                    </td>
+                    <td>
+                        <%= paciente.nauseas1 %>
+                    </td>
+                    <td>
+                        <%= paciente.calambres1 %>
+                    </td>
+                    <td>
+                        <%= paciente.picor1 %>
+                    </td>
+                    <td>
+                        <%= paciente.d_cabeza2 %>
+                    </td>
+                    <td>
+                        <%= paciente.nauseas2 %>
+                    </td>
+                    <td>
+                        <%= paciente.p_dormir %>
+                    </td>
+                    <td>
+                        <%= paciente.calambres2 %>
+                    </td>
+                    <td>
+                        <%= paciente.ardor %>
+                    </td>
+                    <td>
+                        <%= paciente.edema %>
+                    </td>
+                    <td>
+                        <%= paciente.hiper %>
+                    </td>
+                    <td>
+                        <%= paciente.hipo %>
+                    </td>
+                    <td>
+                        <%= paciente.picor2 %>
+                    </td>
+                    <td>
+                        <%= paciente.otros2 %>
+                    </td>
+                    <td>
+                        <%= paciente.estres %>
+                    </td>
+                    <td>
+                        <%= paciente.depresion %>
+                    </td>
+                    <td>
+                        <%= paciente.ansiedad %>
+                    </td>
+                    <td>
+                        <%= paciente.otros3 %>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+    </div>
+</div>

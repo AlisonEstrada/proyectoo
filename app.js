@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const LocalStrategy = require('passport-local').Strategy;
 const MySQLStore = require('express-mysql-session')(session);
 const multer = require('multer');
+const mqtt = require('mqtt'); /////////////////////////////////////////////////////
 
 var conn;
 
@@ -17,18 +18,31 @@ app.set('view engine', 'ejs');
 
 const jsonParser = bodyParser.json();
 
+/////////////////////////////////////////////////
+const options = {
+    clean: true, // retain session
+    connectTimeout: 4000, // Timeout period
+    // Authentication information
+    clientId: 'emqx_test',
+    username: 'emqx_test',
+    password: 'emqx_test',
+  }
+  const connectUrl = 'wss://broker.emqx.io:8084/mqtt'
+  const client = mqtt.connect(connectUrl, options)
+////////////////////////////////////////////////////////////
+
 const dbConfiguration = {
-    host: 'database-1.cwm6hivctpor.us-east-2.rds.amazonaws.com',
+    /*host: 'database-1.cwm6hivctpor.us-east-2.rds.amazonaws.com',
     port: 3306,
     user: 'admin',
     password: 'adminpassword',
-    database: 'dbdialisis'
+    database: 'dbdialisis'*/
 
-    /*host: 'localhost',
+    host: 'localhost',
     port: 3306,
     user: 'root',
     password: '',
-    database: 'cdialisis'*/
+    database: 'cdialisis'
 }
 
 module.exports = app;
@@ -147,7 +161,7 @@ app.get('/login', (req, res) => {
             throw error;
         }
 
-        res.render('main', {'title': 'Login', 'message': '', 'content': 'login', 'roles': rows});
+        res.render('main', {'title': 'Inicio sesion', 'message': '', 'content': 'login', 'roles': rows});
         closeDb();
     });
 })
@@ -189,6 +203,21 @@ app.get('/logout', (req, res) => {
     });
 });
 
+///////////////////////////////////////////////////////////////////////////////////
+client.on('connect', function() { // When connected
+    console.log("Cliente conectado");
+
+  // subscribe to a topic
+  client.subscribe('esp32/test', function() {
+    // when a message arrives, do something with it
+    client.on('message', function(topic, message, packet) {
+      console.log("Received '" + message + "' on '" + topic + "'");
+      
+    });
+  });
+});
+/////////////////////////////////////////////////////////////////////////////////7
+
 app.get('/signup', (req, res) => {
     connectDb();
     conn.query('SELECT id, rol FROM roles', (error, rows) => {
@@ -196,7 +225,7 @@ app.get('/signup', (req, res) => {
             throw error;
         }
 
-        res.render('main', {'title': 'Sign Up', 'content': 'signup', 'roles': rows});
+        res.render('main', {'title': 'Registro', 'content': 'signup', 'roles': rows});
         closeDb();
     });
 });
@@ -232,11 +261,11 @@ app.post('/signup', (req, res) => {
 })*/
 
 app.get('/pacienteInicio', (req, res) => {
-    res.render('mainp', {'title': 'Pacient Page', 'content': 'pacienteInicio', 'user': req.user});
+    res.render('mainp', {'title': 'Pacientes: Inicio', 'content': 'pacienteInicio', 'user': req.user});
 });
 
 app.get('/medicoInicio', (req, res) => {
-    res.render('mainm', {'title': 'Medic Page Inicio', 'content': 'medicoInicio', 'user': req.user});
+    res.render('mainm', {'title': 'MedicosInicio', 'content': 'medicoInicio', 'user': req.user});
 });
 
 app.get('/medicoListaPac', (req, res) => {
@@ -247,14 +276,14 @@ app.get('/medicoListaPac', (req, res) => {
         }
 
         res.render('mainm', {'content': 'medicoListaPac', 
-                   'title': 'Medic Page Pacientes', 'pacientes': rows, 'user': req.user});
+                   'title': 'Medicos: Pacientes', 'pacientes': rows, 'user': req.user});
         closeDb();
     })
 });
 
 app.get('/medicoIngresarDatos/:id', (req, res) => {
     connectDb();
-    conn.query('SELECT id, nombre, apellido_pat FROM usuario ' +
+    conn.query('SELECT id, nombre, apellido_pat, apellido_mat FROM usuario ' +
                'WHERE id=?', [req.params.id],
                (error, rows) => {
                    if (error) {
@@ -262,8 +291,6 @@ app.get('/medicoIngresarDatos/:id', (req, res) => {
                    }
 
                    let usuario = rows[0];
-                   console.log(req.params.id);
-                   console.log(usuario);
 
                     conn.query('SELECT id, dato FROM maquinas ' ,(error, rows) => {
                         if (error) {
@@ -271,7 +298,7 @@ app.get('/medicoIngresarDatos/:id', (req, res) => {
                         } 
         
                            res.render('mainm', {'content': 'medicoIngresarDatos', 
-                                'title': 'datos usuario', 'usuario': usuario, 'maquinas': rows,'user': req.user});
+                                'title': 'Medicos: Ingresar datos', 'usuario': usuario, 'maquinas': rows,'user': req.user});
                            closeDb();
                        })
                })
@@ -280,9 +307,66 @@ app.get('/medicoIngresarDatos/:id', (req, res) => {
 app.post('/ingresarDatosM', (req, res) => {
     let a = req.body;
     connectDb();
-    conn.query('INSERT INTO dialisis(fecha, peso_ing, hora_inicio, hora_fin, peso_eg, valor, id_maquina, uf_prog, uf_fin, id_paciente) ' +
-               'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-               [a.fecha, a.pesoIng, a.horaInicio, a.horaFin, a.pesoEg, a.valor, a.maquina, a.ufProg, a.ufFin, a.usuarioId],
+    conn.query('INSERT INTO dialisis(fecha, peso_ing, hora_inicio, hora_fin, peso_eg, valor, id_maquina, uf_prog, uf_fin, id_paciente, p_inicial, p1, p2, p3, p_final) ' +
+               'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+               [a.fecha, a.pesoIng, a.horaInicio, a.horaFin, a.pesoEg, a.valor, a.maquina, a.ufProg, a.ufFin, a.usuarioId, a.pInicial, a.p1, a.p2, a.p3, a.pFinal],
+               (error, rows) => {
+                   if (error) {
+                       throw error;
+                   }
+                   if (req.xhr) {
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(rows));
+                    } else {
+                        res.redirect('/medicoListaPac');
+                        }
+                closeDb();
+    })
+})
+
+app.get('/medicoVerDatos/:id', (req, res) => {
+    connectDb();
+    conn.query('select * from dialisis a INNER JOIN usuario b on b.id=a.id_paciente INNER JOIN maquinas c on a.id_maquina=c.id where b.id=?', [req.params.id],
+               (error,rows) => {
+                if (error) {
+                    throw error;
+                }
+
+                res.render('mainm', {'content': 'medicoVerDatos', 
+                        'title': 'Medicos: Ver datos', 'pacientes': rows, 'user': req.user});
+                closeDb();
+    })
+});
+
+app.get('/pacienteVerDatos/:id', (req, res) => {
+    connectDb();
+    conn.query('select * from dialisis a INNER JOIN usuario b on b.id=a.id_paciente INNER JOIN maquinas c on a.id_maquina=c.id where b.id=?', [req.user.id],
+               (error,rows) => {
+                if (error) {
+                    throw error;
+                }
+
+                res.render('mainp', {'content': 'pacienteVerDatos', 
+                        'title': 'Pacientes: Mis datos', 'pacientes': rows, 'user': req.user});
+                closeDb();
+    })
+});
+
+app.get('/pacienteIngresarDatos1', (req, res) => {
+    res.render('mainp', {'title': 'Paciente: Ingresar síntomas', 'content': 'pacienteIngresarDatos1', 'user': req.user});
+});
+
+app.post('/ingresarDatosP', (req, res) => {
+    let a = req.body;
+    let d = new Date ();
+    let month = d.getMonth()+1;
+    let day = d.getDate();
+
+    let fecha = d.getFullYear() + '/' + (month<10 ? '0' : '') + month + '/' + (day<10 ? '0' : '') + day;
+    connectDb();
+    conn.query('INSERT INTO detalle_dialisis(fecha, d_cabeza1, frio, nauseas1, calambres1, picor1, d_cabeza2, nauseas2, p_dormir, calambres2, ardor, edema, hiper, hipo, picor2, otros2, estres, depresion, ansiedad, otros3, id_paciente) ' +
+               'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+               [fecha, a.dCabeza1, a.frio, a.nauseas1, a.calambres1, a.picor1, a.dCabeza2, a.nauseas2, a.dormir, a.calambres2, a.ardor, a.edema, a.hiper, a.hipo, a.picor2, a.otros2, a.estres, a.depresion, a.ansiedad, a.otros3, req.user.id],
                (error, rows) => {
                    if (error) {
                        throw error;
@@ -292,11 +376,25 @@ app.post('/ingresarDatosM', (req, res) => {
                     res.writeHead(200, {'Content-Type': 'application/json'});
                     res.end(JSON.stringify(rows));
                     } else {
-                    res.redirect('/medicoInicio');
+                    res.redirect('/pacienteInicio');
                     }
                    closeDb();
                })
 })
+
+app.get('/medicoSintomasPac/:id', (req, res) => {
+    connectDb();
+    conn.query('select * from usuario a INNER JOIN detalle_dialisis c on a.id=c.id_paciente where a.id=?', [req.params.id],
+               (error,rows) => {
+                if (error) {
+                    throw error;
+                }
+
+                res.render('mainm', {'content': 'medicoSintomasPac', 
+                        'title': 'Medicos: Ver síntomas', 'pacientes': rows, 'user': req.user});
+                closeDb();
+    })
+});
 
 app.listen(3000, () => {
     console.log('Server up');

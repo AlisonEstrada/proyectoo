@@ -1,8 +1,8 @@
 <div class="container mt-3">
     <h3>INGRESAR DATOS</h3>
-    <p>
-        Paciente: <%= usuario.nombre %>
-    </p>
+    <h2>
+        Paciente: <%= usuario.nombre %> <%= usuario.apellido_pat %> <%= usuario.apellido_mat %>
+    </h2>
     <form method="POST" action="/ingresarDatosM" style="width: 500px;">
         <div class="form-group">
             <label for="txtFecha">Fecha:</label>
@@ -29,13 +29,50 @@
             <input type="text" class="form-control" name="valor" id="txtValor" />
         </div>
         <div class="form-group">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalPresion">Ingresar presión</button>
+        </div>
+        <div class="modal fade" id="modalPresion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ingresar Presión</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <label for="txtPinicial">Presión inicial:</label>
+                            <input type="text" class="form-control" name="pInicial" id="txtPinicial" />
+                        </div>
+                        <div>
+                            <label for="txtP1">Presión 1:</label>
+                            <input type="text" class="form-control" name="p1" id="txtP1" />
+                        </div>
+                        <div>
+                            <label for="txtP2">Presión 2:</label>
+                            <input type="text" class="form-control" name="p2" id="txtP2" />
+                        </div>
+                        <div>
+                            <label for="txtP3">Presión 3:</label>
+                            <input type="text" class="form-control" name="p3" id="txtP3" />
+                        </div>
+                        <div>
+                            <label for="txtPfinal">Presión final:</label>
+                            <input type="text" class="form-control" name="pFinal" id="txtPfinal" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-dark" data-dismiss="modal" value="Guardar presiones">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
             <label for="cmbMaquina">Máquina (marca y número):</label>
             <select id="cmbMaquina" class="form-control" name="maquina">
                 <% for (let maquina of maquinas) { %>
                     <option value="<%= maquina.id %>"><%= maquina.dato %></option>
                 <% } %>
             </select>
-        </div>    
+        </div>   
         <div class="form-group">
             <label for="txtUFp">UF programada:</label>
             <input type="text" class="form-control" name="ufProg" id="txtUFp" />
@@ -43,7 +80,6 @@
         <div class="form-group">
             <label for="txtUFf">UF final:</label>
             <input type="text" class="form-control" name="ufFin" id="txtUFf" />
-        </div>
         </div>
         <div class="form-group mb-5">
             <input type="submit" value="Registrar datos" class="btn btn-dark" />

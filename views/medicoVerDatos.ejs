@@ -1,0 +1,122 @@
+<div class="container">
+    <h2>PACIENTE: <%= pacientes[0].nombre %> <%= pacientes[0].apellido_pat %> <%= pacientes[0].apellido_mat %></h2>
+    <div>
+        <a href="/medicoSintomasPac/<%= pacientes[0].id_paciente %>" class="btn btn-dark"> Síntomas </a>
+    </div>
+    <table class="table table-striped table-primary table-hover">
+        <thead>
+            <tr>
+                <th>
+                    Fecha
+                </th>
+                <th>
+                    N° sesión
+                </th>
+                <th>
+                    Peso ingreso (kg)
+                </th>
+                <th>
+                    Inicio diálisis
+                </th>
+                <th>
+                    Fin diálisis
+                </th>
+                <th>
+                    Peso egreso (kg)
+                </th>
+                <th>
+                    Valor kt/V
+                </th>
+                <th>
+                    Datos máquina
+                </th>
+                <th>
+                    UF programada
+                </th>
+                <th>
+                    UF final
+                </th>
+                <th>
+                    Presion
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let paciente of pacientes) { %>
+                <tr>
+                    <td nowrap>
+                        <%= paciente.fecha.getDate() + '-' +
+                        (paciente.fecha.getMonth()+1) + '-' +
+                        paciente.fecha.getFullYear() %>
+                    </td>
+                    <td>
+                        <%= paciente.nSesion %>
+                    </td>
+                    <td>
+                        <%= paciente.peso_ing %>
+                    </td>
+                    <td>
+                        <%= paciente.hora_inicio %>
+                    </td>
+                    <td>
+                        <%= paciente.hora_fin %>
+                    </td>
+                    <td>
+                        <%= paciente.peso_eg %>
+                    </td>
+                    <td>
+                        <%= paciente.valor %>
+                    </td>
+                    <td>
+                        <%= paciente.dato %>
+                    </td>
+                    <td>
+                        <%= paciente.uf_prog %>
+                    </td>
+                    <td>
+                        <%= paciente.uf_fin %>
+                    </td>
+                    <td>
+                        <a href="#modalPresion" data-toggle="modal" data-target="#modalPresion">Ver presión</a>
+                        <div class="modal fade" id="modalPresion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Tabla de presión</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table>
+                                            <tr>
+                                                <th>Presión inicial:</th>
+                                                <th><%= paciente.p_inicial %></th>
+                                            </tr>
+                                            <tr>
+                                                <th>Presión 1:</th>
+                                                <th><%= paciente.p1 %></th>
+                                            </tr>
+                                            <tr>
+                                                <th>Presión 2:</th>
+                                                <th><%= paciente.p2 %></th>
+                                            </tr>
+                                            <tr>
+                                                <th>Presión 3:</th>
+                                                <th><%= paciente.p3 %></th>
+                                            </tr>
+                                            <tr>
+                                                <th>Presión final:</th>
+                                                <th><%= paciente.p_final %></th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-dark" data-dismiss="modal" value="Cerrar">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>

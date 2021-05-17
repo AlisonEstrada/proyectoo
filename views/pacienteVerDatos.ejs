@@ -1,0 +1,63 @@
+<div class="container">
+    <h1>MIS DATOS</h1>
+    <h2>PACIENTE: <%= pacientes[0].nombre %> <%= pacientes[0].apellido_pat %> <%= pacientes[0].apellido_mat %></h2>
+    <table class="table table-primary table-hover">
+        <thead>
+            <tr>
+                <th>
+                    Fecha
+                </th>
+                <th>
+                    N° sesión
+                </th>
+                <th>
+                    Peso ingreso (kg)
+                </th>
+                <th>
+                    Inicio diálisis
+                </th>
+                <th>
+                    Fin diálisis
+                </th>
+                <th>
+                    Datos máquina
+                </th>
+                <th>
+                    Presión ingreso
+                </th>
+                <th>
+                    Presión egreso
+                </th>
+                <th>
+                    Otros
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let paciente of pacientes) { %>
+                <tr>
+                    <td>
+                        <%= paciente.fecha.getDate() + '-' +
+                        (paciente.fecha.getMonth()+1) + '-' +
+                        paciente.fecha.getFullYear() %>
+                    </td>
+                    <td>
+                        <%= paciente.nSesion %>
+                    </td>
+                    <td>
+                        <%= paciente.peso_ing %>
+                    </td>
+                    <td>
+                        <%= paciente.hora_inicio %>
+                    </td>
+                    <td>
+                        <%= paciente.hora_fin %>
+                    </td>
+                    <td>
+                        <%= paciente.dato %>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>

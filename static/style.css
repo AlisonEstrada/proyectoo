@@ -1,23 +1,17 @@
-
-.ui-menu{ 
-    width: 250px; 
-
+.container {
+    margin-top: 20px;
 }
-.ui-menu li{
+
+.rb {
+    margin: 5px;
     padding: 20px;
 }
 
-.table_lista {
-    margin-left: 300px;
+#div1 {
+    overflow:scroll;
+    height:auto;
+    width:1200px;
 }
-
-/*.navbar{
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-left: 20px;
-    margin-right: 20px;
-}*/
-
-.container {
-    margin-top: 20px;
+#div1 table {
+   width: 1200px;
 }
