@@ -212,9 +212,13 @@ client.on('connect', function() { // When connected
     // when a message arrives, do something with it
     client.on('message', function(topic, message, packet) {
         console.log("Received '" + message + "' on '" + topic + "'");
+        let d = new Date ();
+        let month = d.getMonth()+1;
+        let day = d.getDate();
+        let fecha = d.getFullYear() + '/' + (month<10 ? '0' : '') + month + '/' + (day<10 ? '0' : '') + day;
         connectDb();
-        conn.query('INSERT INTO rfid(pac) ' +
-               'VALUES (?)', [message],
+        conn.query('INSERT INTO rfid(pac, fecha) ' +
+               'VALUES (?, ?)', [message, fecha],
                (error, rows) => {
                    if (error) {
                        throw error;
