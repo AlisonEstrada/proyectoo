@@ -364,7 +364,7 @@ app.get('/pacienteVerDatos/:id', (req, res) => {
 
                 let pacientes = rows;
 
-                conn.query('SELECT b.id, b.nombre, b.apellido_pat, b.apellido_mat, a.fecha, a.tipo_acceso, a.observacion, a.id_paciente FROM acceso_pac a right JOIN usuario b ON a.id_paciente=b.id where b.id=?', [req.user.id],
+                conn.query('SELECT b.id, b.nombre, b.apellido_pat, b.apellido_mat, a.fecha, a.tipo_acceso, a.observacion, a.id_paciente, c.tipo FROM acceso_pac a right JOIN usuario b ON a.id_paciente=b.id left join acceso c on a.tipo_acceso= c.id where b.id=?', [req.user.id],
                     (error, rows) => {
                         if (error) {
                             throw error;
