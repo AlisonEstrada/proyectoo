@@ -1,6 +1,10 @@
 <div class="container">
     <h1>MIS DATOS</h1>
     <h2>PACIENTE: <%= pacientes[0].nombre %> <%= pacientes[0].apellido_pat %> <%= pacientes[0].apellido_mat %></h2>
+    <div class="form-group">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAcceso">Ver acceso vascular</button>
+    </div>
+    </br>
     <table class="table table-primary table-hover">
         <thead>
             <tr>
@@ -28,9 +32,6 @@
                 <th>
                     Presión egreso
                 </th>
-                <th>
-                    Otros
-                </th>
             </tr>
         </thead>
         <tbody>
@@ -56,8 +57,62 @@
                     <td>
                         <%= paciente.dato %>
                     </td>
+                    <td>
+                        <%= paciente.p_inicial %>
+                    </td>
+                    <td>
+                        <%= paciente.p_final %>
+                    </td>
+                    <td>
+                        <%= paciente.dato %>
+                    </td>
                 </tr>
             <% } %>
         </tbody>
     </table>
+
+    <div class="modal fade" id="modalAcceso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Acceso vascular del paciente</h5>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-primary table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Fecha
+                                </th>
+                                <th>
+                                    Tipo de acceso
+                                </th>
+                                <th>
+                                    Observación
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for (let acceso of accesos) { %>
+                                <tr>
+                                    <td>
+                                        <%= acceso.fecha.getDay() + '-' + (acceso.fecha.getMonth()+1) + '-' + acceso.fecha.getFullYear()%>
+                                    </td>
+                                    <td>
+                                        <%= acceso.tipo_acceso %>
+                                    </td>
+                                    <td>
+                                        <%= acceso.observacion %>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-dark" data-dismiss="modal" value="Cerrar">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

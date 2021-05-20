@@ -362,9 +362,17 @@ app.get('/pacienteVerDatos/:id', (req, res) => {
                     throw error;
                 }
 
-                res.render('mainp', {'content': 'pacienteVerDatos', 
-                        'title': 'Pacientes: Mis datos', 'pacientes': rows, 'user': req.user});
-                closeDb();
+                let pacientes = rows;
+
+                conn.query('SELECT b.id, b.nombre, b.apellido_pat, b.apellido_mat, a.fecha, a.tipo_acceso, a.observacion, a.id_paciente FROM acceso_pac a right JOIN usuario b ON a.id_paciente=b.id where b.id=?', [req.user.id],
+                    (error, rows) => {
+                        if (error) {
+                            throw error;
+                        }
+                        res.render('mainp', {'content': 'pacienteVerDatos', 
+                            'title': 'Pacientes: Mis datos', 'pacientes': pacientes, 'accesos': rows, 'user': req.user});
+                    closeDb();
+                })
     })
 });
 
