@@ -437,7 +437,7 @@ app.get('/medicoAccesoPac/:id', (req, res) => {
 
 app.post('/ingresarNuevoAcceso', (req, res) => {
     connectDb();
-    conn.query('INSERT INTO acceso_pac(fecha, acceso_pac, observacion, id_paciente) ' +
+    conn.query('INSERT INTO acceso_pac(fecha, tipo_acceso, observacion, id_paciente) ' +
                'VALUES (?, ?, ?, ?)',
                [req.body.fecha, req.body.acceso, req.body.obs, req.body.usId],
                (error, rows) => {
