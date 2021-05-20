@@ -414,7 +414,7 @@ app.get('/medicoSintomasPac/:id', (req, res) => {
 
 app.get('/medicoAccesoPac/:id', (req, res) => {
     connectDb();
-    conn.query('SELECT * FROM usuario a LEFT JOIN acceso_pac b ON a.id=b.id_paciente' +
+    conn.query('SELECT b.id, b.nombre, b.apellido_pat, b.apellido_mat, a.fecha, a.tipo_acceso, a.observacion, a.id_paciente FROM acceso_pac a right JOIN usuario b ON a.id_paciente=b.id' +
                ' WHERE a.id=?', [req.params.id],
                (error, rows) => {
                     if (error) {
@@ -439,7 +439,7 @@ app.post('/ingresarNuevoAcceso', (req, res) => {
     connectDb();
     conn.query('INSERT INTO acceso_pac(fecha, tipo_acceso, observacion, id_paciente) ' +
                'VALUES (?, ?, ?, ?)',
-               [req.body.fecha, req.body.acceso, req.body.obs, req.body.usId],
+               [req.body.fecha, req.body.acceso, req.body.obs, req.body.pacienteId],
                (error, rows) => {
                    if (error) {
                        throw error;
