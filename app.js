@@ -449,9 +449,9 @@ app.post('/ingresarNuevoAcceso', (req, res) => {
                     res.writeHead(200, {'Content-Type': 'application/json'});
                     res.end(JSON.stringify(rows));
                     } 
-                    /*else {
-                    res.redirect('/pacienteInicio');
-                    }*/
+                    else {
+                    res.redirect('/MedicoListPac');
+                    }
                    closeDb();
                })
 })
