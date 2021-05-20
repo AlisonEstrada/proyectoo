@@ -412,6 +412,50 @@ app.get('/medicoSintomasPac/:id', (req, res) => {
     })
 });
 
+app.get('/medicoAccesoPac/:id', (req, res) => {
+    connectDb();
+    conn.query('SELECT id, nombre, apellido_pat, apellido_mat FROM usuario a LEFT JOIN acceso_pac b ON a.id=b.id_paciente' +
+               ' WHERE a.id=?', [req.params.id],
+               (error, rows) => {
+                    if (error) {
+                       throw error;
+                    }
+
+                    let usuario = rows;
+
+                    conn.query('SELECT id, tipo FROM acceso ' ,(error, rows) => {
+                        if (error) {
+                            throw error;
+                        } 
+        
+                           res.render('mainm', {'content': 'medicoIngresarDatos', 
+                                'title': 'Medicos: Ingresar datos', 'usuario': usuario, 'accesos': rows,'user': req.user});
+                           closeDb();
+                       })
+               })
+})
+
+app.post('/ingresarNuevoAcceso', (req, res) => {
+    connectDb();
+    conn.query('INSERT INTO acceso_pac(fecha, acceso_pac, observacion, id_paciente) ' +
+               'VALUES (?, ?, ?, ?)',
+               [req.body.fecha, req.body.acceso, req.body.obs, req.body.usuarioId],
+               (error, rows) => {
+                   if (error) {
+                       throw error;
+                   }
+
+                   if (req.xhr) {
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(rows));
+                    } 
+                    /*else {
+                    res.redirect('/pacienteInicio');
+                    }*/
+                   closeDb();
+               })
+})
+
 app.listen(3000, () => {
     console.log('Server up');
 })

@@ -1,0 +1,75 @@
+<div class="container">
+    <div>
+        <h3>ACCESO VASCULAR DEL PACIENTE: </h3>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAcceso">Registrar nuevo acceso</button>
+        </div>
+        <table class="table table-primary table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        Fecha
+                    </th>
+                    <th>
+                        Tipo de acceso
+                    </th>
+                    <th>
+                        Observación
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let acceso of accesos) { %>
+                    <tr>
+                        <td>
+                            <%= acceso.fecha%>
+                        </td>
+                        <td>
+                            <%= acceso.tipo_acceso %>
+                        </td>
+                        <td>
+                            <%= acceso.observacion %>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <form method="POST" action="/ingresarNuevoAcceso" style="width: 500px;">
+            <div class="modal fade" id="modalAcceso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">NUEVO ACCESO</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <label for="txtFecha">Fecha de inserción:</label>
+                                <input type="date" class="form-control" name="fecha" id="txtFecha" />
+                            </div>
+                            <div>
+                                <label for="txtAcceso">Tipo de acceso:</label>
+                                <select id="cmbAcceso" class="form-control" name="acceso">
+                                    <% for (let acceso of accesos) { %>
+                                        <option value="<%= acceso.id %>"><%= acceso.tipo %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="txtOb">Observaciones:</label>
+                                <input type="text" class="form-control" name="obs" id="txtOb" />
+                            </div>
+                        </div>
+                        <div class="form-group mb-5">
+                            <input type="hidden" value="<%= usuario.id %>" name="usuarioId" />
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-dark" data-dismiss="modal" value="Agregar nuevo acceso">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
