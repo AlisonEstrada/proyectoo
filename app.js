@@ -414,7 +414,7 @@ app.get('/medicoSintomasPac/:id', (req, res) => {
 
 app.get('/medicoAccesoPac/:id', (req, res) => {
     connectDb();
-    conn.query('SELECT id, nombre, apellido_pat, apellido_mat FROM usuario a LEFT JOIN acceso_pac b ON a.id=b.id_paciente' +
+    conn.query('SELECT * FROM usuario a LEFT JOIN acceso_pac b ON a.id=b.id_paciente' +
                ' WHERE a.id=?', [req.params.id],
                (error, rows) => {
                     if (error) {
