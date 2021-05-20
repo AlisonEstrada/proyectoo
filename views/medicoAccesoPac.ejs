@@ -23,7 +23,7 @@
                 <% for (let usuario of usuarios) { %>
                     <tr>
                         <td>
-                            <%= usuario.fecha%>
+                            <%= usuario.fecha.getDay() + '-' + (usuario.fecha.getMonth()+1) + '-' + usuario.fecha.getFullYear()%>
                         </td>
                         <td>
                             <%= usuario.tipo_acceso %>
