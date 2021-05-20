@@ -428,8 +428,8 @@ app.get('/medicoAccesoPac/:id', (req, res) => {
                             throw error;
                         } 
         
-                           res.render('mainm', {'content': 'medicoIngresarDatos', 
-                                'title': 'Medicos: Ingresar datos', 'usuario': usuario, 'accesos': rows,'user': req.user});
+                           res.render('mainm', {'content': 'medicoAccesoPac', 
+                                'title': 'Medicos: Datos acceso vascular', 'usuario': usuario, 'accesos': rows,'user': req.user});
                            closeDb();
                        })
                })
