@@ -421,7 +421,7 @@ app.get('/medicoAccesoPac/:id', (req, res) => {
                        throw error;
                     }
 
-                    let usuario = rows;
+                    let usuarios = rows;
 
                     conn.query('SELECT id, tipo FROM acceso ' ,(error, rows) => {
                         if (error) {
@@ -429,7 +429,7 @@ app.get('/medicoAccesoPac/:id', (req, res) => {
                         } 
         
                            res.render('mainm', {'content': 'medicoAccesoPac', 
-                                'title': 'Medicos: Datos acceso vascular', 'usuario': usuario, 'accesos': rows,'user': req.user});
+                                'title': 'Medicos: Datos acceso vascular', 'usuarios': usuarios, 'accesos': rows,'user': req.user});
                            closeDb();
                        })
                })

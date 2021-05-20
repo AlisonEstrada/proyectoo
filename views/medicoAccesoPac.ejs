@@ -1,7 +1,7 @@
 <div class="container">
     <div>
         <h3>ACCESO VASCULAR DEL PACIENTE: </h3>
-        <h5> <%= usuario[0].nombre %> <%= usuario[0].apellido_pat %> <%= usuario[0].apellido_mat %></h5>
+        <h5> <%= usuarios[0].nombre %> <%= usuarios[0].apellido_pat %> <%= usuarios[0].apellido_mat %></h5>
         <div class="form-group">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAcceso">Registrar nuevo acceso</button>
         </div>
@@ -20,16 +20,16 @@
                 </tr>
             </thead>
             <tbody>
-                <% for (let acceso of accesos) { %>
+                <% for (let usuario of usuarios) { %>
                     <tr>
                         <td>
-                            <%= acceso.fecha%>
+                            <%= usuario.fecha%>
                         </td>
                         <td>
-                            <%= acceso.tipo_acceso %>
+                            <%= usuario.tipo_acceso %>
                         </td>
                         <td>
-                            <%= acceso.observacion %>
+                            <%= usuario.observacion %>
                         </td>
                     </tr>
                 <% } %>
@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="form-group mb-5">
-                            <input type="hidden" value="<%= usuario[0].id %>" name="usId" />
+                            <input type="hidden" value="<%= usuarios[0].id %>" name="usId" />
                         </div>
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-dark" value="Agregar nuevo acceso" />
