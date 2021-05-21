@@ -42,7 +42,9 @@
                         <%= paciente.telefono %>
                     </td>
                     <td>
-                        <%= paciente.fecha %>
+                        <%= paciente.fecha.getDate() + '-' +
+                        (paciente.fecha.getMonth()+1) + '-' +
+                        paciente.fecha.getFullYear() %>
                     </td>
                 </tr>
             <% } %>
