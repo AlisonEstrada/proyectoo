@@ -430,7 +430,7 @@ app.get('/medicoSintomasPac/:id', (req, res) => {
 
 app.get('/medicoAccesoPac/:id', (req, res) => {
     connectDb();
-    conn.query('SELECT b.id, b.nombre, b.apellido_pat, b.apellido_mat, a.fecha, a.tipo_acceso, a.observacion, a.id_paciente FROM acceso_pac a right JOIN usuario b ON a.id_paciente=b.id' +
+    conn.query('SELECT b.id, b.nombre, b.apellido_pat, b.apellido_mat, a.fecha, a.tipo_acceso, a.observacion, a.id_paciente, c.tipo FROM acceso_pac a right JOIN usuario b ON a.id_paciente=b.id left join acceso c on a.tipo_acceso=c.id' +
                ' WHERE b.id=?', [req.params.id],
                (error, rows) => {
                     if (error) {
