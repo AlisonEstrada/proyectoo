@@ -281,7 +281,15 @@ app.get('/pacienteInicio', (req, res) => {
 });
 
 app.get('/medicoInicio', (req, res) => {
-    res.render('mainm', {'title': 'MedicosInicio', 'content': 'medicoInicio', 'user': req.user});
+    connectDb();
+    conn.query('SELECT * FROM usuario a right JOIN rfid b ON a.username=b.pac; ', (error,rows) => {
+        if (error) {
+            throw error;
+        }
+
+        res.render('mainm', {'content': 'medicoInicio', 'title': 'Medicos: Pacientes en sala', 'pacientes': rows, 'user': req.user});
+        closeDb();
+    })
 });
 
 app.get('/medicoListaPac', (req, res) => {

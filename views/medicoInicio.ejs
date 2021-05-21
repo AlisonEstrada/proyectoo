@@ -1,0 +1,52 @@
+<div class="container">
+    <h3>LISTA DE PACIENTES EN SALA DE ESPERA</h3>
+    <table class="table table-primary table-hover">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Apellido paterno
+                </th>
+                <th>
+                    Apellido materno
+                </th>
+                <th>
+                    Telefono
+                </th>
+                <th>
+                    Fecha y hora llegada
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let paciente of pacientes) { %>
+                <tr>
+                    <td>
+                        <%= paciente.id%>
+                    </td>
+                    <td>
+                        <%= paciente.nombre %>
+                    </td>
+                    <td>
+                        <%= paciente.apellido_pat %>
+                    </td>
+                    <td>
+                        <%= paciente.apellido_mat %>
+                    </td>
+                    <td>
+                        <%= paciente.telefono %>
+                    </td>
+                    <td>
+                        <%= paciente.fecha.getDay() + '-' + (paciente.fecha.getMonth()+1) + '-' + paciente.fecha.getFullYear() + ' ' +
+                        paciente.fecha.getHours() + ':' + paciente.fecha.getMinutes() + ':' + paciente.fecha.getSeconds() %>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
