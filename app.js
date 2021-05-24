@@ -465,9 +465,9 @@ app.post('/ingresarNuevoAcceso', (req, res) => {
                     res.writeHead(200, {'Content-Type': 'application/json'});
                     res.end(JSON.stringify(rows));
                     } 
-                    /*else {
+                    else {
                     res.redirect('/MedicoListPac');
-                    }*/
+                    }
                    closeDb();
                })
 })
