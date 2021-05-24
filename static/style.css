@@ -15,3 +15,10 @@
 #div1 table {
    width: 1200px;
 }
+
+.col {
+    background-color: cornflowerblue;
+    padding: 15px;
+    border-radius: 5px;
+    border-color: black;
+}
