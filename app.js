@@ -466,7 +466,7 @@ app.post('/ingresarNuevoAcceso', (req, res) => {
                     res.end(JSON.stringify(rows));
                     } 
                     else {
-                    res.redirect('/MedicoListPac');
+                    //res.redirect('/MedicoListPac');
                     }
                    closeDb();
                })
