@@ -472,6 +472,10 @@ app.post('/ingresarNuevoAcceso', (req, res) => {
                })
 })
 
+app.get('/medicoMapa', (req, res) => {
+    res.render('mainm', {'title': 'Médico: Asignar MAPA', 'content': 'medicoMapa', 'user': req.user});
+});
+
 app.listen(3000, () => {
     console.log('Server up');
 })
