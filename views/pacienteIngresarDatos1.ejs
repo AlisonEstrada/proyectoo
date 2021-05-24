@@ -1,9 +1,9 @@
 <div class="container mt-3">
     <div id="tabs-form">
         <ul>
-          <li><a href="#tabs-1">PASO 1</a></li>
-          <li><a href="#tabs-2">PASO 2</a></li>
-          <li><a href="#tabs-3">PASO 3</a></li>
+          <li><a href="#tabs-1" id="tab1">PASO 1</a></li>
+          <li><a href="#tabs-2" id="tab2">PASO 2</a></li>
+          <li><a href="#tabs-3" id="tab3">PASO 3</a></li>
         </ul>
         <form method="POST" action="/ingresarDatosP" >
             <div id="tabs-1">
@@ -35,7 +35,7 @@
                         <input type="radio" class="rb" name="picor1" id="rbPicor1" value="No" />No
                     </div>
                     <div class="form-group">
-                        <a  class="btn btn-dark" onclick="$('#tabs_2').trigger('click')">SIGUIENTE</a>
+                        <a  class="btn btn-primary" onclick="$('#tab2').trigger('click')">SIGUIENTE</a>
                     </div>
                 </div>
             </div>
