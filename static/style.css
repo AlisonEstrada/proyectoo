@@ -18,7 +18,7 @@
 
 .col {
     background-color: cornflowerblue;
-    padding: 15px;
+    margin: 15px;
     border-radius: 5px;
     border-color: black;
 }
