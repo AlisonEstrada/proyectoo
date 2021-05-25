@@ -482,7 +482,6 @@ app.get('/medicoMapa', (req, res) => {
         res.render('mainm', {'content': 'medicoMapa', 'title': 'Médico: Asignar MAPA', 'pacientes': rows, 'user': req.user});
         closeDb();
     })
-    res.render('mainm', {'title': 'Médico: Asignar MAPA', 'content': 'medicoMapa', 'user': req.user});
 });
 
 app.post('/agregarMapa', (req, res) => {
