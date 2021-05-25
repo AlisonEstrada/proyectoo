@@ -8,20 +8,6 @@
             <button class="btn btn-primary" type="submit">Buscar</button>
         </form>
         <br />
-        <form>
-            <div class="form-group">
-                <label for="txtFech">Fecha y hora</label>
-                <input type="date" class="form-control" name="fech" id="txtFech" />
-            </div>
-            <div class="form-group">
-                <label for="txtFech">Fecha y hora</label>
-                <input type="time" class="form-control" name="fech" id="txtFech" />
-            </div>
-            <div class="form-group">
-                <label for="txtFech">Fecha y hora</label>
-                <input type="datetime-local" class="form-control" name="fech" id="txtFech" />
-            </div>
-        </form>
         <div class="row">
             <div class="col">
                 <table class="table table-primary">
@@ -41,7 +27,16 @@
                 </table>
             </div>
             <div class="col">
-                
+                <form>
+                    <div class="form-group">
+                        <label for="txtFechaMapa">Fecha y hora: </label>
+                        <input type="datetime-local" class="form-control" name="fechaMapa" id="txtFechaMapa" />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtOb">Observaciones: </label>
+                        <input type="text" class="form-control" name="obMapa" id="txtOb" />
+                    </div>
+                </form>
             </div>
           </div>
     </div>
