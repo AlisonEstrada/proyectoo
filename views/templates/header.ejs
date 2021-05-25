@@ -11,6 +11,9 @@
 <script src="/jquery-ui/external/jquery/jquery.js"></script>
 <script src="/jquery-ui/jquery-ui.js"></script>
 
+<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="js/bootstrap-datetimepicker.min.js"></script>
+
 
 <link rel="stylesheet" href="/style.css" />
 <script type="text/javascript">
@@ -18,8 +21,8 @@
       $( "#tabs-form" ).tabs();
     } );
 
-    $(function () {
-             $('#datetimepicker1').datetimepicker();
-         });
+    $("#datetime").datetimepicker({
+    format: 'yyyy-mm-dd hh:ii'
+    });
 </script>
 
