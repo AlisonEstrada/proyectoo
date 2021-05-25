@@ -255,7 +255,7 @@ app.post('/signup', (req, res) => {
 
     connectDb();
     conn.query('INSERT INTO usuario(nombre, apellido_pat, apellido_mat,ci, fecha_nacimiento, telefono, tipo_usuario, username, pass) ' + 
-               'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+               'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
                [user.nombre, user.apellidoP, user.apellidoM, user.ci, user.fechaNacimiento, 
                 user.telefono, user.tipoUsuario, user.username, bcrypt.hashSync(user.password, 10)],
                (error, rows) => {
