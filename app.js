@@ -252,10 +252,11 @@ app.get('/', (req, res) => {
 
 app.post('/signup', (req, res) => {
     let user = req.body;
+
     connectDb();
-    conn.query('INSERT INTO usuario(nombre, apellido_pat, apellido_mat, fecha_nacimiento, telefono, tipo_usuario, username, pass) ' + 
+    conn.query('INSERT INTO usuario(nombre, apellido_pat, apellido_mat,ci, fecha_nacimiento, telefono, tipo_usuario, username, pass) ' + 
                'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-               [user.nombre, user.apellidoP, user.apellidoM, user.fechaNacimiento, 
+               [user.nombre, user.apellidoP, user.apellidoM, user.ci, user.fechaNacimiento, 
                 user.telefono, user.tipoUsuario, user.username, bcrypt.hashSync(user.password, 10)],
                (error, rows) => {
                    if (error) {
@@ -270,6 +271,10 @@ app.post('/signup', (req, res) => {
                    }
                    closeDb();
                });
+               //publish into a topic
+                client.publish('esp32/dato', user.ci, function() {
+                    console.log("Message is published");
+                });
 })
   
 /*app.get('/', (req, res) => {
@@ -474,12 +479,13 @@ app.post('/ingresarNuevoAcceso', (req, res) => {
 
 app.get('/medicoMapa', (req, res) => {
     connectDb();
-    conn.query('SELECT id, nombre, apellido_pat, apellido_mat FROM usuario WHERE tipo_usuario = 1', (error,rows) => {
+    conn.query('SELECT id, nombre, apellido_pat, apellido_mat FROM usuario WHERE CI= ?', [req.params.id], (error,rows) => {
         if (error) {
             throw error;
         }
+        let paciente = rows[0];
 
-        res.render('mainm', {'content': 'medicoMapa', 'title': 'Médico: Asignar MAPA', 'pacientes': rows, 'user': req.user});
+        res.render('mainm', {'content': 'medicoMapa', 'title': 'Médico: Asignar MAPA', 'paciente': paciente, 'user': req.user});
         closeDb();
     })
 });
