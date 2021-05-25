@@ -473,8 +473,38 @@ app.post('/ingresarNuevoAcceso', (req, res) => {
 })
 
 app.get('/medicoMapa', (req, res) => {
+    connectDb();
+    conn.query('SELECT id, nombre, apellido_pat, apellido_mat FROM usuario WHERE tipo_usuario = 1', (error,rows) => {
+        if (error) {
+            throw error;
+        }
+
+        res.render('mainm', {'content': 'medicoMapa', 'title': 'Médico: Asignar MAPA', 'pacientes': rows, 'user': req.user});
+        closeDb();
+    })
     res.render('mainm', {'title': 'Médico: Asignar MAPA', 'content': 'medicoMapa', 'user': req.user});
 });
+
+app.post('/agregarMapa', (req, res) => {
+    connectDb();
+    conn.query('INSERT INTO mapa_medico(fecha, observacion, id_paciente) ' +
+               'VALUES (?, ?, ?)',
+               [req.body.fechaMapa, req.body.obMapa, ],
+               (error, rows) => {
+                   if (error) {
+                       throw error;
+                   }
+
+                   if (req.xhr) {
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(rows));
+                    } 
+                    else {
+                    //res.redirect('/MedicoListPac');
+                    }
+                   closeDb();
+               })
+})
 
 app.listen(3000, () => {
     console.log('Server up');
