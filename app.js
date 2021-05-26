@@ -287,7 +287,7 @@ app.get('/pacienteInicio', (req, res) => {
 
 app.get('/medicoInicio', (req, res) => {
     connectDb();
-    conn.query('SELECT * FROM usuario a inner JOIN rfid b ON a.username=b.pac; ', (error,rows) => {
+    conn.query('SELECT * FROM usuario a inner JOIN rfid b ON a.ci=b.pac; ', (error,rows) => {
         if (error) {
             throw error;
         }
