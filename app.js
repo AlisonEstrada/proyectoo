@@ -478,7 +478,7 @@ app.post('/ingresarNuevoAcceso', (req, res) => {
 })
 
 app.get('/medicoMapa', (req, res) => {
-    res.render('mainm', {'content': 'medicoMapa', 'title': 'Médico: Asignar MAPA', 'paciente': paciente, 'user': req.user});
+    res.render('mainm', {'content': 'medicoMapa', 'title': 'Médico: Asignar MAPA', 'user': req.user});
 });
 
 app.get('/medicoMapaBuscar', (req, res) => {
