@@ -2,10 +2,10 @@
     <div>
         <h1>MAPA</h1>
         <br />
-        <h4>ASIGNAR MAPA AL PACIENTE: </h4>
+        <h4>ASIGNAR MAPA AL PACIENTE: <%= paciente.nombre %> <%= paciente.apellido_pat %> <%= paciente.apellido_mat %></h4>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control" type="search" placeholder="Paciente..." aria-label="Search">
-            <button class="btn btn-primary" type="submit">Buscar</button>
+            <button class="btn btn-primary" type="submit"><a href="/medicoMapaBuscar">Buscar</a></button>
         </form>
         <br />
         <div class="row">

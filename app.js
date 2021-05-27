@@ -478,8 +478,12 @@ app.post('/ingresarNuevoAcceso', (req, res) => {
 })
 
 app.get('/medicoMapa', (req, res) => {
+    res.render('mainm', {'content': 'medicoMapa', 'title': 'Médico: Asignar MAPA', 'paciente': paciente, 'user': req.user});
+});
+
+app.get('/medicoMapaBuscar', (req, res) => {
     connectDb();
-    conn.query('SELECT id, nombre, apellido_pat, apellido_mat FROM usuario WHERE CI= ?', [req.params.id], (error,rows) => {
+    conn.query('SELECT id, nombre, apellido_pat, apellido_mat FROM usuario WHERE ci= ?', [req.params.id], (error,rows) => {
         if (error) {
             throw error;
         }
