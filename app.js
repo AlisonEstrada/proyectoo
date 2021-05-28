@@ -252,10 +252,11 @@ app.get('/', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
-    client.on('connect', function() { // When connected
-        console.log("Cliente conectado 2");
     let user = req.body;
-
+    //publish into a topic
+    client.publish('esp32/dato', user.ci, function() {
+        console.log("Message is published");
+    });
     connectDb();
     conn.query('INSERT INTO usuario(nombre, apellido_pat, apellido_mat,ci, fecha_nacimiento, telefono, tipo_usuario, username, pass) ' + 
                'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
@@ -273,13 +274,6 @@ app.post('/signup', (req, res) => {
                        res.redirect('/login');
                    }
                    closeDb();
-               });
-               
-                    //publish into a topic
-                    client.publish('esp32/dato', user.ci, function() {
-                        console.log("Message is published");
-                    });
-
                });
 })
   
