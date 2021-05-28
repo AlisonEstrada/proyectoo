@@ -279,7 +279,7 @@ app.post('/signup', (req, res) => {
                     client.publish('esp32/dato', user.ci, function() {
                         console.log("Message is published");
                     });
-                    client.end();
+
                });
 })
   
