@@ -231,6 +231,7 @@ client.on('connect', function() { // When connected
                })
     });
   });
+  client.end();
 });
 /////////////////////////////////////////////////////////////////////////////////7
 
@@ -251,6 +252,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
+    client.on('connect', function() { // When connected
+        console.log("Cliente conectado 2");
     let user = req.body;
 
     connectDb();
@@ -271,12 +274,12 @@ app.post('/signup', (req, res) => {
                    }
                    closeDb();
                });
-               client.on('connect', function() { // When connected
-                    console.log("Cliente conectado 2");
+               
                     //publish into a topic
                     client.publish('esp32/dato', user.ci, function() {
                         console.log("Message is published");
                     });
+                    client.end();
                });
 })
   
