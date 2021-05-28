@@ -272,9 +272,9 @@ app.post('/signup', (req, res) => {
                    closeDb();
                });
                //publish into a topic
-                client.publish('esp32/dato', user.ci, function() {
+                /*client.publish('esp32/dato', user.ci, function() {
                     console.log("Message is published");
-                });
+                });*/
 })
   
 /*app.get('/', (req, res) => {
