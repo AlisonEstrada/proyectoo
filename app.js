@@ -183,9 +183,6 @@ client.on('connect', function() { // When connected
     });
   });
 
-
-/////////////////////////////////////////////////////////////////////////////////7
-
 app.get('/login', (req, res) => {
     connectDb();
     conn.query('SELECT id, rol FROM roles', (error, rows) => {
