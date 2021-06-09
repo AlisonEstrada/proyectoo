@@ -9,7 +9,6 @@ const cookieParser = require('cookie-parser');
 const LocalStrategy = require('passport-local').Strategy;
 const MySQLStore = require('express-mysql-session')(session);
 const multer = require('multer');
-const PoolManager = require('mysql-connection-pool-manager');
 const mqtt = require('mqtt'); /////////////////////////////////////////////////////
 
 var conn;
@@ -32,36 +31,19 @@ const options = {
   const client = mqtt.connect(connectUrl, options)
 ////////////////////////////////////////////////////////////
 
-const mySQLoptions = {
-    idleCheckInterval: 1000,
-    maxConnextionTimeout: 30000,
-    idlePoolTimeout: 3000,
-    errorLimit: 5,
-    preInitDelay: 50,
-    sessionTimeout: 60000,
-    onConnectionAcquire: () => { console.log("Acquire"); },
-    onConnectionConnect: () => { console.log("Connect"); },
-    onConnectionEnqueue: () => { console.log("Enqueue"); },
-    onConnectionRelease: () => { console.log("Release"); },
-    mySQLSettings: {
-        host: 'database-1.cwm6hivctpor.us-east-2.rds.amazonaws.com',
-        port: 3306,
-        user: 'admin',
-        password: 'adminpassword',
-        database: 'dbdialisis',
+const dbConfiguration = {
+    host: 'database-1.cwm6hivctpor.us-east-2.rds.amazonaws.com',
+    port: 3306,
+    user: 'admin',
+    password: 'adminpassword',
+    database: 'dbdialisis'
 
-      //socketPath: '/var/run/mysqld/mysqld.sock',
-      charset: 'utf8',
-      multipleStatements: true,
-      connectTimeout: 15000,
-      acquireTimeout: 10000,
-      waitForConnections: true,
-      connectionLimit: 1000,
-      queueLimit: 5000,
-      debug: false
-    }
-  }
-const mySQL = PoolManager(mySQLoptions);
+    /*host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'cdialisis'*/
+}
 
 module.exports = app;
 
@@ -78,13 +60,7 @@ var upload = multer({ storage: storage })
 
 app.set('sessionMiddleWare', session({
     secret: 'some secret',
-    store: new MySQLStore({
-        host: 'database-1.cwm6hivctpor.us-east-2.rds.amazonaws.com',
-        port: 3306,
-        user: 'admin',
-        password: 'adminpassword',
-        database: 'dbdialisis',
-    }),
+    store: new MySQLStore(dbConfiguration),
     proxy: true
 }))
 app.use((...args) => app.get('sessionMiddleWare')(...args));
@@ -120,8 +96,10 @@ passport.use('local', new LocalStrategy(
 	    passReqToCallback : true
 	},
 	(req, username, password, done) => {
+        connectDb();
 
-        mySQL.query('SELECT id, username, pass FROM usuario WHERE username = ?', [username], (error, rows) => {
+        conn.query('SELECT id, username, pass FROM usuario WHERE username = ?', [username], (error, rows) => {
+            closeDb();
 
             if (rows.length == 0) {
                 return done(null, false);
@@ -149,8 +127,9 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
+    connectDb();
     
-	mySQL.query('SELECT id, username FROM usuario WHERE id = ?', [id], (error, row) => {
+	conn.query('SELECT id, username FROM usuario WHERE id = ?', [id], (error, row) => {
 		if (row.length == 0) {
 			return done(null, false);
         }
@@ -158,6 +137,22 @@ passport.deserializeUser((id, done) => {
 		return done(null, row[0]);
 	});
 });
+
+connectDb = () => {
+    conn = mysql.createConnection(dbConfiguration);
+
+    conn.connect((err) => {
+        if (err) {
+            throw err;
+        }
+
+        console.log('Connected');
+    })
+}
+
+closeDb = () => {
+    conn.end();
+}
 
 ///////////////////////////////////////////////////////////////////////////////////
 client.on('connect', function() { // When connected
@@ -175,19 +170,28 @@ client.on('connect', function() { // When connected
         let min = d.getMinutes();
         let sec = d.getSeconds();
         let fecha = d.getFullYear() + '/' + (month<10 ? '0' : '') + month + '/' + (day<10 ? '0' : '') + day + ' ' + hour + ':' + min + ':' + sec;
-        mySQL.query('INSERT INTO rfid(pac, fecha) ' +
+        connectDb();
+        conn.query('INSERT INTO rfid(pac, fecha) ' +
                'VALUES (?, ?)', [message, fecha],
                (error, rows) => {
                    if (error) {
                        throw error;
                    }
+
+                   closeDb();
                })
     });
   });
 
 app.get('/login', (req, res) => {
-    mySQL.query('SELECT id, rol FROM roles', (rows, msg) => {
+    connectDb();
+    conn.query('SELECT id, rol FROM roles', (error, rows) => {
+        if (error) {
+            throw error;
+        }
+
         res.render('main', {'title': 'Inicio sesion', 'message': '', 'content': 'login', 'roles': rows});
+        closeDb();
     });
 })
 
