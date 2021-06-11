@@ -166,7 +166,7 @@ client.on('connect', function() { // When connected
         let d = new Date ();
         let month = d.getMonth()+1;
         let day = d.getDate();
-        let hour = d.getHours();
+        let hour = d.getHours() - 2;
         let min = d.getMinutes();
         let sec = d.getSeconds();
         let fecha = d.getFullYear() + '/' + (month<10 ? '0' : '') + month + '/' + (day<10 ? '0' : '') + day + ' ' + hour + ':' + min + ':' + sec;
